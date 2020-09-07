@@ -1,6 +1,7 @@
 package com.emranul.musicplayer.Adapters;
 
 import android.content.ContentUris;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,15 +30,14 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.row_song_layout,parent,false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.raw_song_layout,parent,false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.name.setText(songModels.get(position).getTitle());
-        holder.artist.setText(songModels.get(position).getArtist());
-
+        holder.artist.setText(songModels.get(position).getDuration()+"");
         Glide.with(holder.itemView.getContext())
                 .load(getImage(songModels.get(position).getAlbumId()))
                 .placeholder(R.drawable.ic_music)
@@ -46,6 +46,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     }
 
     private Uri getImage(long albumId) {
+
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
     }
 

@@ -1,5 +1,7 @@
 package com.emranul.musicplayer.Models;
 
+import android.graphics.Bitmap;
+
 public class SongModel {
     private final long _id;
     private final String title;
@@ -9,6 +11,7 @@ public class SongModel {
     private final String artist;
     private final int duration;
     private final int trackNumber;
+
 
 
 
