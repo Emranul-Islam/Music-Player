@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.emranul.musicplayer.Models.AlbumModel;
+import com.emranul.musicplayer.Models.ArtistModel;
 import com.emranul.musicplayer.Models.SongModel;
 
 import java.util.ArrayList;
@@ -95,5 +96,28 @@ public class SongLoader {
 
         cursor.close();
         return albumModels;
+    }
+
+    public List<ArtistModel> getArtist(Context context) {
+        List<ArtistModel> models = new ArrayList<>();
+
+        Uri uri = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI;
+
+        String[] projection = new String[]{
+                MediaStore.Audio.Artists._ID,
+                MediaStore.Audio.Artists.ARTIST,
+                MediaStore.Audio.Artists.NUMBER_OF_TRACKS
+        };
+        String sortOrder = MediaStore.Audio.Artists.ARTIST;
+        Cursor cursor = context.getContentResolver().query(uri,projection,null,null,sortOrder);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                models.add(new ArtistModel(cursor.getLong(0), cursor.getString(1), cursor.getInt(2)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return models;
     }
 }
