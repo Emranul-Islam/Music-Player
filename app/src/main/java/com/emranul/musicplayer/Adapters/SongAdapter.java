@@ -1,7 +1,6 @@
 package com.emranul.musicplayer.Adapters;
 
 import android.content.ContentUris;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.name.setText(songModels.get(position).getTitle());
-        holder.artist.setText(songModels.get(position).getDuration()+"");
+        holder.artist.setText(songModels.get(position).getArtist() + "");
         Glide.with(holder.itemView.getContext())
                 .load(getImage(songModels.get(position).getAlbumId()))
                 .placeholder(R.drawable.ic_music)

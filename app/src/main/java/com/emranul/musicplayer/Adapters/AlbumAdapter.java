@@ -1,5 +1,6 @@
 package com.emranul.musicplayer.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,8 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.emranul.musicplayer.Fragments.AlbumDetailsFragment;
 import com.emranul.musicplayer.Models.AlbumModel;
 import com.emranul.musicplayer.R;
 
@@ -16,24 +22,47 @@ import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
 
-    private List<AlbumModel> albumModels ;
+    private List<AlbumModel> albumModels;
+    private Context context;
 
-    public AlbumAdapter(List<AlbumModel> albumModels) {
+    public AlbumAdapter(List<AlbumModel> albumModels, Context context) {
         this.albumModels = albumModels;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public AlbumViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AlbumViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.raw_album_layout,parent,false));
+        return new AlbumViewHolder(LayoutInflater.from(context).inflate(R.layout.raw_album_layout, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AlbumViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final AlbumViewHolder holder, final int position) {
         holder.albumName.setText(albumModels.get(position).getAlbumName());
-        holder.albumRD.setText(albumModels.get(position).getNr_of_songs()+"");
+        holder.albumRD.setText(albumModels.get(position).getArtistName());
         holder.albumImage.setImageBitmap(albumModels.get(position).getAlbumImg());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long albumId = albumModels.get(position).getID();
+                String albumName = albumModels.get(position).getAlbumName();
+                String albumArtist = albumModels.get(position).getArtistName();
+                int relYear = albumModels.get(position).getRelYear();
+
+                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment fragment;
+                fragment = AlbumDetailsFragment.newInstance(albumId, "ALBUM", albumName, albumArtist, relYear);
+
+                fragmentTransaction.hide(((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.slider_mainframe));
+
+                fragmentTransaction.add(R.id.slider_mainframe, fragment);
+                fragmentTransaction.addToBackStack(null).commit();
+
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -51,4 +80,5 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
             albumRD = itemView.findViewById(R.id.raw_album_artist);
         }
     }
+
 }

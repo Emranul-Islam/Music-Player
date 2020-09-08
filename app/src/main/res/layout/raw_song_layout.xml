@@ -28,8 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/raw_image"
             android:text="THis is Music Name"
-            android:maxLength="35"
-            android:textSize="18sp"/>
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/raw_artist"

@@ -34,7 +34,7 @@ public class ArtistFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setHasFixedSize(true);
 
-        artistAdapter = new ArtistAdapter(new SongLoader().getArtist(view.getContext()));
+        artistAdapter = new ArtistAdapter(getContext(), new SongLoader().getArtist(view.getContext()));
         recyclerView.setAdapter(artistAdapter);
 
         artistAdapter.notifyDataSetChanged();
