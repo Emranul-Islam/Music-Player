@@ -1,19 +1,16 @@
 package com.emranul.musicplayer.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.emranul.musicplayer.Fragments.AlbumDetailsFragment;
+import com.emranul.musicplayer.AlbumArtistDetailsActivity;
 import com.emranul.musicplayer.Models.ArtistModel;
 import com.emranul.musicplayer.R;
 
@@ -22,7 +19,7 @@ import java.util.List;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
 
     private Context context;
-    private List<ArtistModel> artistModels;
+    public static List<ArtistModel> artistModels;
 
     public ArtistAdapter(Context context, List<ArtistModel> artistModels) {
         this.context = context;
@@ -42,21 +39,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long id = artistModels.get(position).getArtistId();
-                String artist = artistModels.get(position).getArtistName();
-                String numAlbum = String.valueOf(artistModels.get(position).getNumOfAlbum());
-                int numSong = artistModels.get(position).getNumOfSong();
-
-
-                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment fragment;
-                fragment = AlbumDetailsFragment.newInstance(id, "ARTIST", artist, numAlbum, numSong);
-
-                fragmentTransaction.hide(((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.slider_mainframe));
-
-                fragmentTransaction.add(R.id.slider_mainframe, fragment);
-                fragmentTransaction.addToBackStack(null).commit();
+                Intent intent = new Intent(context, AlbumArtistDetailsActivity.class);
+                intent.putExtra("POSITION", String.valueOf(position));
+                intent.putExtra("ACTION", "ARTIST");
+                context.startActivity(intent);
             }
         });
     }
@@ -68,6 +54,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView artistName, numOfSong;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             artistName = itemView.findViewById(R.id.raw_artist_name);

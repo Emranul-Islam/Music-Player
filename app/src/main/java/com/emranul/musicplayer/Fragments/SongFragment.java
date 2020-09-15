@@ -44,7 +44,8 @@ public class SongFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getContext() != null) {
-                songAdapter = new SongAdapter(new com.emranul.musicplayer.SongLoader().getAllSong(getContext()));
+                songAdapter = new SongAdapter(new com.emranul.musicplayer.SongLoader().getAllSong(getContext()), "");
+
             }
             return "Executed";
         }

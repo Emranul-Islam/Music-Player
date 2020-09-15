@@ -1,25 +1,41 @@
 package com.emranul.musicplayer;
 
 import android.Manifest;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
-import com.emranul.musicplayer.Fragments.MainFragment;
+import com.emranul.musicplayer.Adapters.ViewPagerAdapter;
+import com.emranul.musicplayer.Fragments.AlbumFragment;
+import com.emranul.musicplayer.Fragments.ArtistFragment;
+import com.emranul.musicplayer.Fragments.SongFragment;
+import com.google.android.material.tabs.TabLayout;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SlidingUpPanelLayout slidingUpPanelLayout;
+
+//    public static ImageButton like, notlike, dislike, notdislike;
+//    public static ImageButton play, pause, play_main, pause_main;
+
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
+    private AlbumFragment albumFragment;
+    private ArtistFragment artistFragment;
+    private SongFragment songFragment;
+    public static MediaPlayer mediaPlayer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +68,32 @@ public class MainActivity extends AppCompatActivity {
                 }).check();
 
 
-
-
-
-
     }
 
     private void permissionGranted() {
 
-        slidingUpPanelLayout = findViewById(R.id.sliding_layout);
 
-        MainFragment mainFragment = new MainFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.slider_mainframe, mainFragment);
-        fragmentTransaction.commit();
+        toolbar = findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        tabLayout = findViewById(R.id.tabs);
+        viewPager = findViewById(R.id.viewpager);
+
+        artistFragment = new ArtistFragment();
+        albumFragment = new AlbumFragment();
+        songFragment = new SongFragment();
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), 0);
+
+        viewPagerAdapter.addFragment(songFragment, "Song");
+        viewPagerAdapter.addFragment(albumFragment, "Album");
+        viewPagerAdapter.addFragment(artistFragment, "Artist");
+
+
+        viewPager.setAdapter(viewPagerAdapter);
+
+
     }
 
 

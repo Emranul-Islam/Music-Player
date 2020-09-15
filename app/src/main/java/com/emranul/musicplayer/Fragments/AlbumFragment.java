@@ -41,8 +41,6 @@ public class AlbumFragment extends Fragment {
         recyclerView.setAdapter(albumAdapter);
 
 
-
-
         return view;
     }
 }

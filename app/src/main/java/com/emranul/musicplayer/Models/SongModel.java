@@ -8,12 +8,10 @@ public class SongModel {
     private final long artistId;
     private final String artist;
     private final int duration;
-    private final int trackNumber;
+    private final String track;
 
 
-
-
-    public SongModel(long _id, String title, long albumId, String albumName, long artistId, String artist, int duration, int trackNumber) {
+    public SongModel(long _id, String title, long albumId, String albumName, long artistId, String artist, int duration, String track) {
         this._id = _id;
         this.title = title;
         this.albumId = albumId;
@@ -21,7 +19,7 @@ public class SongModel {
         this.artistId = artistId;
         this.artist = artist;
         this.duration = duration;
-        this.trackNumber = trackNumber;
+        this.track = track;
     }
 
     public long get_id() {
@@ -52,8 +50,8 @@ public class SongModel {
         return duration;
     }
 
-    public int getTrackNumber() {
-        return trackNumber;
+    public String getTrack() {
+        return track;
     }
 
     @Override
@@ -66,7 +64,7 @@ public class SongModel {
                 ", artistId=" + artistId +
                 ", artist='" + artist + '\'' +
                 ", duration=" + duration +
-                ", trackNumber=" + trackNumber +
+                ", trackNumber=" + track +
                 "}\n\n";
     }
 }
